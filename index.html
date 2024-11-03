@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image and Audio Player</title>
+    <title>Monster Randomizer + Memory Sound</title>
     <style>
         body {
             display: flex;
@@ -56,7 +56,7 @@
                     imgElement.alt = randomImage;
 
                     // Extract the identifier from the image filename using a stricter pattern
-                    const match = randomImage.match(/square_([a-zA-Z0-9]+)(?:_(epic|rare))?\.avif/);
+                    const match = randomImage.match(/square_([a-zA-Z0-9]+)(?:_(epic|adult|rare))?\.avif/);
                     if (match && match[1]) {
                         let identifier = match[1].toUpperCase(); // Get the identifier and convert to uppercase
                         console.log("Extracted identifier:", identifier); // Debug log
