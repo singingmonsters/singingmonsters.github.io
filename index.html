@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSM</title>
+    <title>Random Image and Audio Player</title>
     <style>
         body {
             display: flex;
@@ -34,23 +34,34 @@
     <script>
         async function displayRandomImageAndPlayAudio() {
             try {
+                // Fetch images.txt
                 const response = await fetch('images.txt');
                 const text = await response.text();
                 
+                // Split contents by new lines to get image filenames
                 const images = text.split('\n').map(line => line.trim()).filter(line => line);
 
                 if (images.length > 0) {
+                    // Select a random image
                     const randomIndex = Math.floor(Math.random() * images.length);
                     const randomImage = images[randomIndex];
 
+                    // Display the image
                     const imgElement = document.getElementById('randomImage');
                     imgElement.src = "images/" + randomImage;
 
-                    const identifier = randomImage.match(/square_(.*?)\.avif/)[1];
+                    // Extract the identifier from the image filename using the pattern
+                    const match = randomImage.match(/square_(.*?)\.avif/);
+                    if (match && match[1]) {
+                        const identifier = match[1];
 
-                    const audioElement = document.getElementById('audioPlayer');
-                    audioElement.src = "audio/" + identifier + "-memory.wav";
-                    audioElement.play();
+                        // Set up the corresponding .wav audio file
+                        const audioElement = document.getElementById('audioPlayer');
+                        audioElement.src = "audio/" + identifier + "-memory.wav";
+                        audioElement.play();
+                    } else {
+                        console.error("No matching audio found for the selected image.");
+                    }
                 } else {
                     console.error("No images found in images.txt.");
                 }
@@ -59,6 +70,7 @@
             }
         }
 
+        // Run the function to display the image and play the audio
         displayRandomImageAndPlayAudio();
     </script>
 </body>
