@@ -50,17 +50,17 @@
                     const imgElement = document.getElementById('randomImage');
                     imgElement.src = "images/" + randomImage;
 
-                    // Extract the identifier from the image filename using the pattern
-                    const match = randomImage.match(/square_(.*?)\.avif/);
+                    // Extract the identifier from the image filename using a stricter pattern
+                    const match = randomImage.match(/square_([a-zA-Z0-9]+)\.avif/);
                     if (match && match[1]) {
-                        const identifier = match[1];
+                        const identifier = match[1]; // e.g., "abcd" from "monster_portrait_square_abcd.avif"
 
                         // Set up the corresponding .wav audio file
                         const audioElement = document.getElementById('audioPlayer');
                         audioElement.src = "audio/" + identifier + "-memory.wav";
                         audioElement.play();
                     } else {
-                        console.error("No matching audio found for the selected image.");
+                        console.error("Could not extract the audio identifier from the image filename.");
                     }
                 } else {
                     console.error("No images found in images.txt.");
