@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monster Randomizer + Memory Sound</title>
+    <title>MSM</title>
     <style>
         body {
             display: flex;
@@ -22,14 +22,11 @@
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        audio {
-            margin-top: 20px;
-        }
     </style>
 </head>
 <body>
     <img id="randomImage" alt="Random Image">
-    <audio id="audioPlayer" controls></audio>
+    <audio id="audioPlayer" autoplay></audio>
 
     <script>
         async function displayRandomImageAndPlayAudio() {
@@ -61,23 +58,17 @@
                         let identifier = match[1].toUpperCase(); // Get the identifier and convert to uppercase
                         console.log("Extracted identifier:", identifier); // Debug log
 
-                        // Check for epic or rare variants and adjust the identifier accordingly
-                        if (match[2]) {
-                            console.log("Detected variant:", match[2]); // Debug log for variant detection
-                            // Use the base identifier for the audio file
-                        }
-
                         // Set up the corresponding .wav audio file
                         const audioElement = document.getElementById('audioPlayer');
                         audioElement.src = "audio/" + identifier + "-Memory.wav"; // Use base identifier
 
                         console.log("Setting audio source to:", audioElement.src); // Debug log
 
-                        // Play the audio if the file exists
+                        // Attempt to play the audio automatically
                         audioElement.play().then(() => {
-                            console.log("Audio is playing");
+                            console.log("Audio is playing automatically");
                         }).catch((error) => {
-                            console.error("Error playing audio:", error);
+                            console.error("Error playing audio automatically:", error);
                         });
                     } else {
                         console.error("Could not extract the audio identifier from the image filename.");
