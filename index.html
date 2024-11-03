@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Random Image Display</title>
+    <title>MSM</title>
     <style>
         body {
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             height: 100vh;
@@ -15,34 +16,41 @@
             background-color: #f0f0f0;
         }
         img {
-            max-width: 100%;
+            max-width: 50%;
             height: auto;
+            margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        audio {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
     <img id="randomImage" alt="Random Image">
+    <audio id="audioPlayer" controls></audio>
 
     <script>
-        // Function to fetch and display a random image from images.txt
-        async function displayRandomImage() {
+        async function displayRandomImageAndPlayAudio() {
             try {
-                // Fetch the images.txt file
                 const response = await fetch('images.txt');
                 const text = await response.text();
                 
-                // Split the file contents by new line to get each image filename
                 const images = text.split('\n').map(line => line.trim()).filter(line => line);
 
                 if (images.length > 0) {
-                    // Select a random image
                     const randomIndex = Math.floor(Math.random() * images.length);
                     const randomImage = images[randomIndex];
 
-                    // Set the random image source
-                    document.getElementById('randomImage').src = "images/" + randomImage;
+                    const imgElement = document.getElementById('randomImage');
+                    imgElement.src = "images/" + randomImage;
+
+                    const identifier = randomImage.match(/square_(.*?)\.avif/)[1];
+
+                    const audioElement = document.getElementById('audioPlayer');
+                    audioElement.src = "audio/" + identifier + "-memory.wav";
+                    audioElement.play();
                 } else {
                     console.error("No images found in images.txt.");
                 }
@@ -51,8 +59,7 @@
             }
         }
 
-        // Run the function to display the image
-        displayRandomImage();
+        displayRandomImageAndPlayAudio();
     </script>
 </body>
 </html>
