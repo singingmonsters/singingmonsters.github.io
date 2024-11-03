@@ -37,7 +37,9 @@
                 // Fetch images.txt
                 const response = await fetch('images.txt');
                 const text = await response.text();
-                
+
+                console.log("Content of images.txt:", text); // Debug log
+
                 // Split contents by new lines to get image filenames
                 const images = text.split('\n').map(line => line.trim()).filter(line => line);
 
@@ -46,19 +48,31 @@
                     const randomIndex = Math.floor(Math.random() * images.length);
                     const randomImage = images[randomIndex];
 
+                    console.log("Selected random image:", randomImage); // Debug log
+
                     // Display the image
                     const imgElement = document.getElementById('randomImage');
                     imgElement.src = "images/" + randomImage;
+                    imgElement.alt = randomImage;
 
                     // Extract the identifier from the image filename using a stricter pattern
                     const match = randomImage.match(/square_([a-zA-Z0-9]+)\.avif/);
                     if (match && match[1]) {
-                        const identifier = match[1]; // e.g., "abcd" from "monster_portrait_square_abcd.avif"
+                        const identifier = match[1].toUpperCase(); // Convert to uppercase
+                        console.log("Extracted identifier:", identifier); // Debug log
 
                         // Set up the corresponding .wav audio file
                         const audioElement = document.getElementById('audioPlayer');
-                        audioElement.src = "audio/" + identifier + "-memory.wav";
-                        audioElement.play();
+                        audioElement.src = "audio/" + identifier + "-Memory.wav"; // Updated case for audio filename
+
+                        console.log("Setting audio source to:", audioElement.src); // Debug log
+
+                        // Play the audio if the file exists
+                        audioElement.play().then(() => {
+                            console.log("Audio is playing");
+                        }).catch((error) => {
+                            console.error("Error playing audio:", error);
+                        });
                     } else {
                         console.error("Could not extract the audio identifier from the image filename.");
                     }
