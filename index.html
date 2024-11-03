@@ -56,14 +56,20 @@
                     imgElement.alt = randomImage;
 
                     // Extract the identifier from the image filename using a stricter pattern
-                    const match = randomImage.match(/square_([a-zA-Z0-9]+)\.avif/);
+                    const match = randomImage.match(/square_([a-zA-Z0-9]+)(?:_(epic|rare))?\.avif/);
                     if (match && match[1]) {
-                        const identifier = match[1].toUpperCase(); // Convert to uppercase
+                        let identifier = match[1].toUpperCase(); // Get the identifier and convert to uppercase
                         console.log("Extracted identifier:", identifier); // Debug log
+
+                        // Check for epic or rare variants and adjust the identifier accordingly
+                        if (match[2]) {
+                            console.log("Detected variant:", match[2]); // Debug log for variant detection
+                            // Use the base identifier for the audio file
+                        }
 
                         // Set up the corresponding .wav audio file
                         const audioElement = document.getElementById('audioPlayer');
-                        audioElement.src = "audio/" + identifier + "-Memory.wav"; // Updated case for audio filename
+                        audioElement.src = "audio/" + identifier + "-Memory.wav"; // Use base identifier
 
                         console.log("Setting audio source to:", audioElement.src); // Debug log
 
